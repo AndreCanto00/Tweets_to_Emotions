@@ -1,5 +1,7 @@
 # Progetto di Analisi dei Tweet
 
+[![Run Python Tests](https://github.com/AndreCanto00/Tweets_to_Emotions/actions/workflows/test.yml/badge.svg)](https://github.com/AndreCanto00/Tweets_to_Emotions/actions/workflows/test.yml)
+
 Questo repository contiene un progetto di data science per l'analisi dei tweet. Utilizziamo librerie come `pandas`, `matplotlib`, `seaborn`, `nltk` e altre per eseguire la pulizia, la tokenizzazione, la visualizzazione e l'analisi dei dati dei tweet.
 
 ## Struttura del Progetto
