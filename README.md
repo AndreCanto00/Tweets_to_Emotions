@@ -1,24 +1,69 @@
-# Data Science Template
+# Progetto di Analisi dei Tweet
 
-This sample repo contains the recommended structure for a Python data science project. For more information on data science in VS Code, see the [Data Science Overview](https://code.visualstudio.com/docs/datascience/overview) in our docs. In this sample, we use the `pandas` and `matplotlib` libraries to perform data analysis and visualize sample data and the `pytest` library to perform tests.
+Questo repository contiene un progetto di data science per l'analisi dei tweet. Utilizziamo librerie come `pandas`, `matplotlib`, `seaborn`, `nltk` e altre per eseguire la pulizia, la tokenizzazione, la visualizzazione e l'analisi dei dati dei tweet.
 
-For a more in-depth tutorial, see our [data science tutorial](https://code.visualstudio.com/docs/datascience/data-science-tutorial).
+## Struttura del Progetto
 
-The code in this repo aims to follow Python style guidelines as outlined in [PEP 8](https://peps.python.org/pep-0008/).
+- `.github/workflows/`: Contiene i workflow di GitHub Actions per l'esecuzione automatica dei test.
+- `notebooks/`: Contiene i notebook Jupyter per l'analisi esplorativa dei dati.
+- `src/`: Contiene il codice sorgente per la pulizia, la tokenizzazione, la visualizzazione e l'analisi dei dati.
+- `tests/`: Contiene i test unitari per il codice sorgente.
+- `tweet_emotions.csv`, `concatenated_tweets_by_category.csv`, `detached_tweets_by_category.csv`: File CSV con i dati dei tweet.
 
-## Running the Sample
+## Requisiti
 
-To successfully run this example, we recommend the following VS Code extensions:
-- [Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-- [Python Debugger](https://marketplace.visualstudio.com/items?itemName=ms-python.debugpy)
-- [Pylance](https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance) 
+Per eseguire questo progetto, è necessario installare le seguenti dipendenze:
 
-- Open the template folder in VS Code (**File** > **Open Folder...**)
-- Create a Python virtual environment using the **Python: Create Environment** command found in the Command Palette (**View > Command Palette**). Ensure you install dependencies found in the `requirements.txt` file
-- Ensure your newly created environment is selected using the **Python: Select Interpreter** command found in the Command Palette
-- Run `calculations.py` using the Play Button in the top right corner or by selecting **Python > Python File in Terminal** from the context menu or Command Palette
-- Run `revenue_visual.py` using the Play Button in the top right corner or by selecting **Python > Python File in Terminal** from the context menu or Command Palette to generate the bar graph visual
-- To test the Python code, install `dev-requirements.txt` into your virtual environment. 
-- Navigate to the Test Panel to configure your Python test or by triggering the **Python: Configure Tests** command from the Command Palette
-- Run tests in the Test Panel or by clicking the Play Button next to the individual tests in the `test_calculations.py` file
+- `pandas`
+- `matplotlib`
+- `seaborn`
+- `nltk`
+- `scikit-learn`
+- `wordcloud`
+- `torch`
+- `unidecode`
+- `contractions`
+- `emoji`
+- `empath`
+- `transformers`
+- `xgboost`
+- `pytest`
+- `pytest-cov`
+- `nbval`
+
+## Installazione
+
+1. Clona il repository:
+    ```sh
+    git clone https://github.com/tuo-username/progetto-analisi-tweet.git
+    cd progetto-analisi-tweet
+    ```
+
+2. Crea un ambiente virtuale e installa le dipendenze:
+    ```sh
+    make install
+    ```
+
+## Esecuzione del Progetto
+
+1. Per eseguire il preprocessing dei dati, utilizza il modulo [preprocessing](http://_vscodecontentref_/1):
+    ```sh
+    python src/preprocessing.py
+    ```
+
+2. Per visualizzare i dati, utilizza il modulo `visualization`:
+    ```sh
+    python src/visualization.py
+    ```
+
+3. Per eseguire i test, utilizza il comando:
+    ```sh
+    make test
+    ```
+
+## Test
+
+I test sono scritti utilizzando [pytest](http://_vscodecontentref_/2). Per eseguire i test, utilizza il comando:
+```sh
+make test
 
