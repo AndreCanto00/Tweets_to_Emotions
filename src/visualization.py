@@ -59,3 +59,24 @@ def plot_sentiment_histogram(data, category_counts):
     plt.tight_layout()
 
     plt.show()
+
+
+def plot_empath_categories(positive_values_of_cat, media):
+    """Plot Empath categories analysis"""
+    sentiment_categories = list(positive_values_of_cat.keys())
+    fig, axes = plt.subplots(4, 4, figsize=(12, 12))
+    
+    for i, sentiment_category in enumerate(sentiment_categories):
+        row = i // 4
+        col = i % 4
+        ax = axes[row, col]
+        ax.plot(positive_values_of_cat[sentiment_category])
+        ax.axhline(media[sentiment_category], color='red', linestyle='--', 
+                  label=f'Average: {media[sentiment_category]:.5f}')
+        ax.set_title(f'{sentiment_category.capitalize()}')
+        ax.set_xlabel('Empath Categories')
+        ax.set_ylabel('Value')
+        ax.legend()
+    
+    plt.tight_layout()
+    return fig
