@@ -1,4 +1,5 @@
-# tests/test_visualization.py
+from src.visualization import plot_empath_analysis
+import matplotlib.pyplot as plt
 
 def test_plot_empath_analysis():
     """Test Empath visualization function"""

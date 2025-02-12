@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from src.tweet_categorization import create_category_tweets, save_categorized_tweets
+from src.tweet_categorization import create_category_tweets, save_categorized_tweets, analyze_empath_categories, get_key_categories, analyze_wordnet_relationships  
 
 def test_create_category_tweets():
     test_data = pd.DataFrame({
@@ -52,8 +52,6 @@ def test_analyze_empath_categories(tmp_path):
     assert all(isinstance(v, list) for v in positive_values.values())
 
 
-# tests/test_tweet_categorization.py
-# ... (test precedenti) ...
 
 def test_get_key_categories():
     test_df = pd.DataFrame({
