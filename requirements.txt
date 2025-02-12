@@ -11,3 +11,6 @@ emoji
 empath
 transformers
 xgboost
+pytest
+pytest-cov
+nbval
