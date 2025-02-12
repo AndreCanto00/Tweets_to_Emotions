@@ -1,0 +1,13 @@
+pandas
+matplotlib
+seaborn
+nltk
+scikit-learn
+wordcloud
+torch
+unidecode
+contractions
+emoji
+empath
+transformers
+xgboost
