@@ -89,7 +89,7 @@ def test_analyze_lda_relationships(sample_tweets_df):
    assert isinstance(result['Same Category'].iloc[0], (bool, np.bool_))
    assert isinstance(result['Hyponyms'].iloc[0], str)
    assert isinstance(result['Hypernyms'].iloc[0], str)
-   assert isinstance(result['LDA Keywords'].iloc[0], list)
+   assert isinstance(result['LDA Keywords'].iloc[0], np.ndarray)
 
 def test_analyze_lda_relationships_empty_data():
    """Test behavior with empty DataFrame"""
