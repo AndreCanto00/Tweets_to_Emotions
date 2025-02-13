@@ -14,3 +14,5 @@ xgboost
 pytest
 pytest-cov
 nbval
+bertopic
+numpy<=2.1

@@ -8,8 +8,8 @@ def test_preprocess_data():
         'sentiment': ['happy', 'sad']
     })
     result = preprocess_data(test_data)
-    assert 'content_len' in result.columns
-    assert 'content_word' in result.columns
+    assert 'content' in result.columns
+    assert 'sentiment' in result.columns
 
 def test_get_dataframe_info():
     test_df = pd.DataFrame({

@@ -66,7 +66,7 @@ def test_analyze_keyword_matches(sample_lda_results):
    ])
    
    # Check data types
-   assert isinstance(result['String Match'].iloc[0], bool)
+   assert isinstance(result['String Match'].iloc[0], (bool, np.bool_))
    assert isinstance(result['Hyponyms'].iloc[0], str)
    assert isinstance(result['Hypernyms'].iloc[0], str)
 
@@ -86,7 +86,7 @@ def test_analyze_lda_relationships(sample_tweets_df):
    ])
    
    # Check data types
-   assert isinstance(result['Same Category'].iloc[0], bool)
+   assert isinstance(result['Same Category'].iloc[0], (bool, np.bool_))
    assert isinstance(result['Hyponyms'].iloc[0], str)
    assert isinstance(result['Hypernyms'].iloc[0], str)
    assert isinstance(result['LDA Keywords'].iloc[0], list)
