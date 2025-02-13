@@ -10,12 +10,7 @@ def prepreprocess_data(data):
 
 def preprocess_data(data):
     df = data.copy()
-    df['clean_content'] = df['content'].apply(clean_content)
-    df['tokenized_content'] = df['clean_content'].apply(tokenize_text)
-    df['processed_content'] = df['tokenized_content'].apply(remove_punctuation)
-    df['processed_content'] = df['processed_content'].apply(lambda x: ' '.join(x))
-    df['content_len'] = df['processed_content'].apply(len)
-    df['content_word'] = df['processed_content'].apply(lambda x: len(x.split()))
+    df['content'] = df['content'].apply(lambda x: ' '.join(remove_punctuation(tokenize_text(clean_content(x)))))
     return df
 
 def get_dataframe_info(df):

@@ -1,0 +1,14 @@
+Sentiment Category,LDA Keywords,Same Category,Hyponyms,Hypernyms
+empty,['day' 'go' 'get'],False,,
+sadness,['miss' 'work' 'day'],False,,
+enthusiasm,['get' 'go' 'want'],False,,
+neutral,['go' 'get' 'day'],False,,
+worry,['day' 'going' 'get'],False,,
+surprise,['going' 'day' 'get'],False,,
+love,['appy' 'day' 'love'],True,love,love
+fun,['going' 'lol' 'fun'],True,,
+hate,['like' 'suck' 'hate'],True,,
+happiness,['ay' 'good' 'day'],False,,
+boredom,['go' 'work' 'bored'],False,,
+relief,['got' 'good' 'day'],False,,
+anger,['know' 'going' 'get'],False,,
