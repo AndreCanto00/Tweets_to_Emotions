@@ -1,21 +1,51 @@
 # src/bertopic_analysis.py
+from bertopic import BERTopic
 import pandas as pd
-import numpy as np
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Any
 
-def calculate_topic_probabilities(cat_tweets: Dict[str, Tuple[List, List]]) -> Dict[str, Dict[int, List]]:
+def perform_bertopic_analysis(df: pd.DataFrame) -> Tuple[Dict, Dict]:
     """
-    Calculate probability arrays for each sentiment category and topic
+    Perform BERTopic analysis on tweets grouped by sentiment category
     
     Parameters:
     -----------
-    cat_tweets : dict
-        Dictionary containing sentiment categories with their topics and probabilities
+    df : pandas.DataFrame
+        DataFrame containing 'Sentiment Category' and 'Tweets' columns
     
     Returns:
     --------
-    dict
-        Nested dictionary with probability arrays for each category and topic
+    Tuple[Dict, Dict]
+        cat_tweets: Dictionary containing topics and probabilities for each category
+        model_list: Dictionary containing BERTopic models for each category
+    """
+    cat_tweets = {}
+    model_list = {}
+    
+    for index, row in df.iterrows():
+        sentiment_category = row['Sentiment Category']
+        tweets = row['Tweets']
+        
+        topic_model = BERTopic()
+        topics, probs = topic_model.fit_transform(tweets)
+        
+        cat_tweets[sentiment_category] = [topics, probs]
+        model_list[sentiment_category] = topic_model
+    
+    return cat_tweets, model_list
+
+def calculate_topic_probabilities(cat_tweets: Dict) -> Dict:
+    """
+    Calculate probability array for topics in each category
+    
+    Parameters:
+    -----------
+    cat_tweets : Dict
+        Dictionary containing topics and probabilities for each category
+    
+    Returns:
+    --------
+    Dict
+        Dictionary containing probability calculations for each topic
     """
     probability_array = {}
     
@@ -31,21 +61,20 @@ def calculate_topic_probabilities(cat_tweets: Dict[str, Tuple[List, List]]) -> D
     
     return probability_array
 
-def rank_topics(probability_array: Dict[str, Dict[int, List]]) -> Tuple[Dict[str, Dict[int, float]], Dict[str, Dict[int, float]]]:
+def rank_topics(probability_array: Dict) -> Tuple[Dict, Dict]:
     """
     Rank topics based on their probabilities and tweet counts
     
     Parameters:
     -----------
-    probability_array : dict
-        Nested dictionary with probability arrays
+    probability_array : Dict
+        Dictionary containing probability calculations for each topic
     
     Returns:
     --------
-    tuple
-        Contains two dictionaries:
-        - Ranking of topics
-        - Ordered ranking of topics
+    Tuple[Dict, Dict]
+        tot_tweet: Dictionary containing total tweet counts per category
+        ordered_rank: Dictionary containing ranked topics per category
     """
     tot_tweet = {}
     rank = {}
@@ -58,34 +87,30 @@ def rank_topics(probability_array: Dict[str, Dict[int, List]]) -> Tuple[Dict[str
             tweet, prob = probability_array[sentiment_category][topic]
             perc_tweets = tweet/tot_tweet[sentiment_category]
             perc_prob = prob/tweet
-            rank[sentiment_category][topic] = perc_tweets * perc_prob * 100
+            rank[sentiment_category][topic] = perc_tweets*perc_prob*100
     
-    # Order rankings
     ordered_rank = {}
     for sentiment_cat in rank:
-        ordered_rank[sentiment_cat] = dict(sorted(
-            rank[sentiment_cat].items(), 
-            key=lambda item: item[1], 
-            reverse=True
-        ))
+        ordered_rank[sentiment_cat] = dict(sorted(rank[sentiment_cat].items(), 
+                                                key=lambda item: item[1], 
+                                                reverse=True))
     
-    return rank, ordered_rank
+    return tot_tweet, ordered_rank
 
-def find_category_in_topics(ordered_rank: Dict[str, Dict[int, float]], 
-                          model_list: Dict[str, object]) -> Dict[str, List]:
+def analyze_category_in_topics(ordered_rank: Dict, model_list: Dict) -> Dict:
     """
-    Find if category title appears in topics
+    Analyze if category title appears in topics
     
     Parameters:
     -----------
-    ordered_rank : dict
-        Ordered ranking of topics
-    model_list : dict
-        Dictionary of BERTopic models for each category
+    ordered_rank : Dict
+        Dictionary containing ranked topics per category
+    model_list : Dict
+        Dictionary containing BERTopic models for each category
     
     Returns:
     --------
-    dict
+    Dict
         Dictionary containing topics where category appears
     """
     category_in_topic = {}
@@ -93,23 +118,30 @@ def find_category_in_topics(ordered_rank: Dict[str, Dict[int, float]],
     for sentiment_cat in ordered_rank:
         category_in_topic[sentiment_cat] = []
         for topic, prob in ordered_rank[sentiment_cat].items():
-            if any(sentiment_cat in tupla 
-                  for tupla in model_list[sentiment_cat].get_topic(topic)):
+            if any(sentiment_cat in tupla for tupla in model_list[sentiment_cat].get_topic(topic)):
                 category_in_topic[sentiment_cat].append([topic, prob])
     
     return category_in_topic
 
-def visualize_topic_models(model_list: Dict[str, object]) -> None:
+def visualize_topics_for_category(model_list: Dict, category: str = None):
     """
-    Visualize topics for each model
+    Visualize topics for a specific category or all categories
     
     Parameters:
     -----------
-    model_list : dict
-        Dictionary of BERTopic models for each category
+    model_list : Dict
+        Dictionary containing BERTopic models for each category
+    category : str, optional
+        Specific category to visualize. If None, visualizes all categories
     """
-    for sentiment_cat in model_list:
+    if category:
         try:
-            model_list[sentiment_cat].visualize_topics()
+            model_list[category].visualize_topics()
         except Exception as e:
-            print(f"{sentiment_cat} has too few elements")
+            print(f"{category} too few elements")
+    else:
+        for sentiment_cat in model_list:
+            try:
+                model_list[sentiment_cat].visualize_topics()
+            except Exception as e:
+                print(f"{sentiment_cat} too few elements")
