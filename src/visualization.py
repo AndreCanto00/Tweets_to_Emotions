@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 from wordcloud import WordCloud
+from typing import Dict, List
+import pandas as pd
 
 def plot_content_distributions(df):
     fig, ax = plt.subplots(1, 2, figsize=(20, 6))
@@ -97,3 +99,50 @@ def plot_empath_analysis(positive_values_of_cat, media):
     
     plt.tight_layout()
     return fig
+
+
+
+
+def plot_similarity_distributions(result_df: pd.DataFrame, 
+                                ratios: Dict[str, List[float]], 
+                                figsize: tuple = (12, 12)) -> None:
+    """
+    Plot histograms of similarity ratio distributions for each sentiment category.
+    
+    Args:
+        result_df (pd.DataFrame): DataFrame containing sentiment categories
+        ratios (Dict[str, List[float]]): Dictionary with sentiment categories as keys
+                                        and ratio scores as values
+        figsize (tuple): Size of the figure (width, height)
+    """
+    # Calcola il numero di righe e colonne necessarie per la griglia
+    n_categories = len(result_df)
+    n_rows = (n_categories + 3) // 4  # Arrotonda per eccesso
+    n_cols = 4
+    
+    # Crea la figura e i subplot
+    fig, axs = plt.subplots(n_rows, n_cols, figsize=figsize)
+    
+    # Appiattisce l'array di axes per una più facile iterazione
+    axs_flat = axs.flatten()
+    
+    # Crea gli istogrammi
+    for i in range(n_categories):
+        sentiment_category = result_df['Sentiment Category'].iloc[i]
+        ratio_scores_category = ratios[sentiment_category]
+        
+        # Crea l'istogramma
+        axs_flat[i].hist(ratio_scores_category, bins=20, edgecolor='k')
+        axs_flat[i].set_xlabel('Ratio Scores')
+        axs_flat[i].set_ylabel('Frequency')
+        axs_flat[i].set_title(sentiment_category)
+        axs_flat[i].grid(True)
+    
+    # Rimuovi i subplot vuoti in eccesso
+    for i in range(n_categories, len(axs_flat)):
+        fig.delaxes(axs_flat[i])
+    
+    # Aggiusta il layout
+    plt.tight_layout()
+    
+    return fig, axs

@@ -16,3 +16,4 @@ pytest-cov
 nbval
 bertopic
 numpy<=2.1
+fuzzywuzzy
