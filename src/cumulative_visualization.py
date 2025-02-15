@@ -38,6 +38,10 @@ def plot_cumulative_similarity_distributions(
     
     # Crea subplot grid
     n_categories = len(result_df)
+    if n_categories == 0:
+        fig, axs = plt.subplots(1, 1, figsize=figsize)
+        axs.axis('off')
+        return fig, np.array([axs])
     n_rows = (n_categories + 3) // 4
     fig, axs = plt.subplots(n_rows, 4, figsize=figsize)
     axs_flat = axs.flatten()

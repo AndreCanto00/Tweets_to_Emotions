@@ -103,46 +103,39 @@ def plot_empath_analysis(positive_values_of_cat, media):
 
 
 
-def plot_similarity_distributions(result_df: pd.DataFrame, 
-                                ratios: Dict[str, List[float]], 
-                                figsize: tuple = (12, 12)) -> None:
+def plot_similarity_distributions(result_df: pd.DataFrame, ratios: Dict[str, np.ndarray]):
     """
-    Plot histograms of similarity ratio distributions for each sentiment category.
+    Plot similarity distributions for each sentiment category.
     
     Args:
-        result_df (pd.DataFrame): DataFrame containing sentiment categories
-        ratios (Dict[str, List[float]]): Dictionary with sentiment categories as keys
-                                        and ratio scores as values
-        figsize (tuple): Size of the figure (width, height)
-    """
-    # Calcola il numero di righe e colonne necessarie per la griglia
-    n_categories = len(result_df)
-    n_rows = (n_categories + 3) // 4  # Arrotonda per eccesso
-    n_cols = 4
-    
-    # Crea la figura e i subplot
-    fig, axs = plt.subplots(n_rows, n_cols, figsize=figsize)
-    
-    # Appiattisce l'array di axes per una più facile iterazione
-    axs_flat = axs.flatten()
-    
-    # Crea gli istogrammi
-    for i in range(n_categories):
-        sentiment_category = result_df['Sentiment Category'].iloc[i]
-        ratio_scores_category = ratios[sentiment_category]
+        result_df (pd.DataFrame): DataFrame containing summary statistics
+        ratios (Dict[str, np.ndarray]): Dictionary of similarity ratios by category
         
-        # Crea l'istogramma
-        axs_flat[i].hist(ratio_scores_category, bins=20, edgecolor='k')
-        axs_flat[i].set_xlabel('Ratio Scores')
-        axs_flat[i].set_ylabel('Frequency')
-        axs_flat[i].set_title(sentiment_category)
-        axs_flat[i].grid(True)
+    Returns:
+        Tuple[plt.Figure, np.ndarray]: Figure and axes array
+    """
+    if result_df.empty:
+        fig, axs = plt.subplots(1, 1)
+        return fig, axs
     
-    # Rimuovi i subplot vuoti in eccesso
-    for i in range(n_categories, len(axs_flat)):
-        fig.delaxes(axs_flat[i])
+    n_categories = len(result_df)
+    n_cols = 4
+    n_rows = (n_categories + n_cols - 1) // n_cols
     
-    # Aggiusta il layout
-    plt.tight_layout()
+    fig, axs = plt.subplots(n_rows, n_cols, figsize=(15, n_rows * 5))
     
+    for ax, (category, row) in zip(axs.flat, result_df.iterrows()):
+        category_name = row['Sentiment Category']
+        data = ratios[category_name]
+        
+        ax.hist(data, bins=30, alpha=0.7)
+        ax.set_title(category_name)
+        ax.set_xlabel('Similarity Score')
+        ax.set_ylabel('Frequency')
+    
+    # Hide any unused subplots
+    for ax in axs.flat[n_categories:]:
+        ax.set_visible(False)
+    
+    fig.tight_layout()
     return fig, axs

@@ -52,6 +52,11 @@ def test_empty_input():
     empty_ratios = {}
     
     fig, axs = plot_cumulative_similarity_distributions(empty_df, empty_ratios)
+    
+    assert isinstance(fig, plt.Figure)
+    assert len(axs) == 1
+    assert not axs[0].has_data()
+    
     plt.close(fig)
 
 def test_print_statistics(sample_data, capsys):
