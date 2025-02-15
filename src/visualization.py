@@ -3,6 +3,7 @@ import seaborn as sns
 from wordcloud import WordCloud
 from typing import Dict, List
 import pandas as pd
+import numpy as np
 
 def plot_content_distributions(df):
     fig, ax = plt.subplots(1, 2, figsize=(20, 6))
