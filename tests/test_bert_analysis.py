@@ -76,6 +76,7 @@ def test_full_analysis(sample_data):
     
     # Check that all categories are present
     assert set(similarities.keys()) == set(antonyms_dict.keys())
+    assert 'Sentiment Category' in summary.columns
     assert set(summary['Sentiment Category']) == set(antonyms_dict.keys())
 
 def test_empty_inputs():

@@ -108,7 +108,7 @@ class BertSemanticAnalyzer:
                 }
                 results.append(result)
                 
-        return pd.DataFrame(results)
+        return pd.DataFrame(results, columns=["Sentiment Category", "Min", "Max", "Mean"]) if results else pd.DataFrame(columns=["Sentiment Category", "Min", "Max", "Mean"])
 
 def analyze_semantic_similarities(tweets_df: pd.DataFrame,
                                antonyms_dict: Dict[str, List[str]],
