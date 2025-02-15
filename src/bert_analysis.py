@@ -59,8 +59,10 @@ class BertSemanticAnalyzer:
                                  for antonym in antonyms]
             
             # Get tweets for this category
-            index = tweets_df.index[tweets_df['Sentiment Category'] == category].tolist()[0]
-            records = tweets_df.at[index, 'Tweets']
+            category_tweets = tweets_df[tweets_df['Sentiment Category'] == category]
+            if category_tweets.empty:
+                continue
+            records = category_tweets['Tweets'].values[0]
             
             # Calculate similarities
             results[category] = {}
