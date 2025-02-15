@@ -51,24 +51,34 @@ def test_sim_between_categories():
     assert sim_between_categories('happy', 'sad', [], []) == -1
 
 def test_analyze_category_relationships(sample_categories):
-    result = analyze_category_relationships(sample_categories)
+    pivot_table, antonyms_dict = analyze_category_relationships(sample_categories)
     
     # Verifica che sia un DataFrame
-    assert isinstance(result, pd.DataFrame)
+    assert isinstance(pivot_table, pd.DataFrame)
     
-    # Verifica dimensioni
+    # Verifica che antonyms_dict sia un dizionario
+    assert isinstance(antonyms_dict, dict)
+    
+    # Verifica che ogni categoria abbia i suoi antonimi
+    assert set(antonyms_dict.keys()) == set(sample_categories)
+    
+    # Verifica che gli antonimi siano liste
+    assert all(isinstance(v, list) for v in antonyms_dict.values())
+    
+    # Verifica dimensioni della pivot table
     n = len(sample_categories)
-    expected_size = (n, n-1)  # -1 perché non includiamo la diagonale
-    assert result.shape[0] <= n
+    assert pivot_table.shape[0] <= n
     
     # Verifica che tutti i valori siano numeri o '-'
-    for col in result.columns:
-        assert all(isinstance(v, (float, str)) for v in result[col])
+    for col in pivot_table.columns:
+        assert all(isinstance(v, (float, str)) for v in pivot_table[col])
 
 def test_empty_categories():
-    result = analyze_category_relationships([])
-    assert isinstance(result, pd.DataFrame)
-    assert result.empty
+    pivot_table, antonyms_dict = analyze_category_relationships([])
+    assert isinstance(pivot_table, pd.DataFrame)
+    assert pivot_table.empty
+    assert isinstance(antonyms_dict, dict)
+    assert len(antonyms_dict) == 0
 
 @pytest.mark.parametrize("category", ['happy', 'sad', 'good', 'bad'])
 def test_individual_categories(category):

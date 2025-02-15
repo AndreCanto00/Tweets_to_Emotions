@@ -77,15 +77,18 @@ def sim_between_categories(ci: str, cj: str,
     return 1 - 0.5 * (max_wup_similarity(ci, ci_antonyms) + 
                       max_wup_similarity(cj, cj_antonyms))
 
-def analyze_category_relationships(categories: List[str]) -> pd.DataFrame:
+def analyze_category_relationships(categories: List[str]) -> Tuple[pd.DataFrame, Dict[str, List[str]]]:
     """
-    Analyze relationships between all pairs of categories.
+    Analyze relationships between all pairs of categories and return both the similarity matrix
+    and the antonyms dictionary.
     
     Args:
         categories (List[str]): List of category names
         
     Returns:
-        pd.DataFrame: Pivot table of similarities between categories
+        Tuple[pd.DataFrame, Dict[str, List[str]]]: 
+            - Pivot table of similarities between categories
+            - Dictionary mapping categories to their antonyms
     """
     # Get antonyms for all categories
     antonyms_category = {cat: get_antonyms(cat) for cat in categories}
@@ -111,4 +114,4 @@ def analyze_category_relationships(categories: List[str]) -> pd.DataFrame:
         fill_value="-"
     )
     
-    return pivot_table
+    return pivot_table, antonyms_category
