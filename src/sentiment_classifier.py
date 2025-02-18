@@ -152,7 +152,7 @@ class SentimentClassifier:
     
     def train_random_forest(self, X_train: np.ndarray, X_test: np.ndarray,
                           y_train: np.ndarray, y_test: np.ndarray, 
-                          labels: np.ndarray) -> Tuple[float, Dict[str, Any], np.ndarray]:
+                          labels: np.ndarray, n_splits=5) -> Tuple[float, Dict[str, Any], np.ndarray]:
         """
         Train and evaluate Random Forest model with grid search.
         
@@ -167,7 +167,7 @@ class SentimentClassifier:
         }
         
         clf = RandomForestClassifier(random_state=42)
-        cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
         grid = GridSearchCV(clf, param_grid=params, cv=cv, n_jobs=-1, verbose=1)
         grid.fit(X_train, y_train)
         
@@ -181,7 +181,7 @@ class SentimentClassifier:
     
     def train_xgboost(self, X_train: np.ndarray, X_test: np.ndarray,
                      y_train: np.ndarray, y_test: np.ndarray, 
-                     labels: np.ndarray) -> Tuple[float, Dict[str, Any], np.ndarray]:
+                     labels: np.ndarray, n_splits=5) -> Tuple[float, Dict[str, Any], np.ndarray]:
         """
         Train and evaluate XGBoost model with grid search.
         
@@ -197,7 +197,7 @@ class SentimentClassifier:
         }
         
         clf = xgb.XGBClassifier(objective='multi:softprob', random_state=42)
-        cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+        cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
         grid = GridSearchCV(clf, param_grid=params, cv=cv, n_jobs=-1, verbose=1)
         grid.fit(X_train, y_train)
         

@@ -129,7 +129,7 @@ def test_model_training_workflow(classifier, sample_data):
     
     # Train Random Forest
     rf_accuracy, rf_params, rf_proba = classifier.train_random_forest(
-        x_train, x_test, y_train, y_test, labels
+        x_train, x_test, y_train, y_test, labels, n_splits=3
     )
     assert 0 <= rf_accuracy <= 1
     assert isinstance(rf_params, dict)
@@ -138,7 +138,7 @@ def test_model_training_workflow(classifier, sample_data):
     
     # Train XGBoost
     xgb_accuracy, xgb_params, xgb_proba = classifier.train_xgboost(
-        x_train, x_test, y_train, y_test, labels
+        x_train, x_test, y_train, y_test, labels, n_splits=3
     )
     assert 0 <= xgb_accuracy <= 1
     assert isinstance(xgb_params, dict)
@@ -149,7 +149,7 @@ def test_predict_method(classifier, sample_data):
     """Test the predict method."""
     # Train the model first
     x_train, x_test, y_train, y_test, labels, _ = classifier.prepare_data(sample_data)
-    classifier.train_random_forest(x_train, x_test, y_train, y_test, labels)
+    classifier.train_random_forest(x_train, x_test, y_train, y_test, labels, n_splits=3)
     
     # Test predictions
     new_texts = ["This is great!", "I am very sad"]

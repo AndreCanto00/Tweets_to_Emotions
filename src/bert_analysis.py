@@ -82,24 +82,13 @@ class BertSemanticAnalyzer:
                 
         return results
     
-    def summarize_similarities(self, 
-                             similarity_results: Dict[str, Dict[int, float]]
-                             ) -> pd.DataFrame:
-        """
-        Create summary statistics for similarity results.
-        
-        Args:
-            similarity_results (Dict[str, Dict[int, float]]): Results from 
-                calculate_tweet_antonym_similarities
-            
-        Returns:
-            pd.DataFrame: Summary statistics by category
-        """
+    def summarize_similarities(self, similarity_results: Dict[str, Dict[int, float]]) -> pd.DataFrame:
         results = []
         
         for sentiment_category, similarities in similarity_results.items():
-            values = [sim for sim in similarities.values() 
-                     if isinstance(sim, (float, np.ndarray))]
+            # Convert all values to float to handle both float and numpy types
+            values = [float(sim) for sim in similarities.values() 
+                    if isinstance(sim, (float, np.ndarray, np.float32, np.float64))]
             
             if values:
                 result = {
@@ -109,8 +98,17 @@ class BertSemanticAnalyzer:
                     "Mean": sum(values) / len(values),
                 }
                 results.append(result)
-                
-        return pd.DataFrame(results, columns=["Sentiment Category", "Min", "Max", "Mean"]) if results else pd.DataFrame(columns=["Sentiment Category", "Min", "Max", "Mean"])
+            else:
+                # Add default values if no valid similarities found
+                result = {
+                    "Sentiment Category": sentiment_category,
+                    "Min": 0.0,
+                    "Max": 0.0,
+                    "Mean": 0.0,
+                }
+                results.append(result)
+        
+        return pd.DataFrame(results, columns=["Sentiment Category", "Min", "Max", "Mean"])
 
 def analyze_semantic_similarities(tweets_df: pd.DataFrame,
                                antonyms_dict: Dict[str, List[str]],
