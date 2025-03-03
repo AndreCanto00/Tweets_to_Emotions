@@ -1,20 +1,23 @@
-# Progetto di Analisi dei Tweet
+# Tweet Analysis Project.
 
 [![Run Python Tests](https://github.com/AndreCanto00/Tweets_to_Emotions/actions/workflows/test.yml/badge.svg)](https://github.com/AndreCanto00/Tweets_to_Emotions/actions/workflows/test.yml)
 
-Questo repository contiene un progetto di data science per l'analisi dei tweet. Utilizziamo librerie come `pandas`, `matplotlib`, `seaborn`, `nltk` e altre per eseguire la pulizia, la tokenizzazione, la visualizzazione e l'analisi dei dati dei tweet.
+This repository contains a data science project for tweet analysis. We use libraries such as `pandas`, `matplotlib`, `seaborn`, `nltk` and others to perform cleaning, tokenization, visualization and analysis of tweet data.
 
-## Struttura del Progetto
+The file Project_requirements.pdf contains the project requests.
+The file Paper.pdf contains the results of the project.
 
-- `.github/workflows/`: Contiene i workflow di GitHub Actions per l'esecuzione automatica dei test.
-- `notebooks/`: Contiene i notebook Jupyter per l'analisi esplorativa dei dati.
-- `src/`: Contiene il codice sorgente per la pulizia, la tokenizzazione, la visualizzazione e l'analisi dei dati.
-- `tests/`: Contiene i test unitari per il codice sorgente.
-- `tweet_emotions.csv`, `concatenated_tweets_by_category.csv`, `detached_tweets_by_category.csv`: File CSV con i dati dei tweet.
+## Project Structure.
 
-## Requisiti
+- `.github/workflows/`: Contains GitHub Actions workflows for automated test execution.
+- `notebooks/`: Contains Jupyter notebooks for exploratory data analysis.
+- `src/`: Contains source code for data cleaning, tokenization, visualization, and analysis.
+- `tests/`: Contains the unit tests for the source code.
+- `tweet_emotions.csv`, `concatenated_tweets_by_category.csv`, `detached_tweets_by_category.csv`: CSV files with tweet data.
 
-Per eseguire questo progetto, è necessario installare le seguenti dipendenze:
+## Requirements.
+
+To run this project, you need to install the following dependencies:
 
 - `pandas`
 - `matplotlib`
@@ -33,39 +36,41 @@ Per eseguire questo progetto, è necessario installare le seguenti dipendenze:
 - `pytest-cov`
 - `nbval`
 
-## Installazione
 
-1. Clona il repository:
+## Installation
+
+1. Clone the repository:
     ```sh
     git clone https://github.com/tuo-username/progetto-analisi-tweet.git
-    cd progetto-analisi-tweet
+    cd project-analysis-tweet
     ```
 
-2. Crea un ambiente virtuale e installa le dipendenze:
-    ```sh
+2. Create a virtual environment and install dependencies:
+    ``sh
     make install
     ```
 
-## Esecuzione del Progetto
+## Running the Project
 
-1. Per eseguire il preprocessing dei dati, utilizza il modulo [preprocessing](http://_vscodecontentref_/1):
-    ```sh
+1. To perform data preprocessing, use the [preprocessing](http://_vscodecontentref_/1) module:
+    ``sh
     python src/preprocessing.py
     ```
 
-2. Per visualizzare i dati, utilizza il modulo `visualization`:
+2. To visualize the data, use the `visualization` module:
     ```sh
     python src/visualization.py
     ```
 
-3. Per eseguire i test, utilizza il comando:
-    ```sh
+3. To run tests, use the command:
+    ``sh
     make test
     ```
 
 ## Test
 
-I test sono scritti utilizzando [pytest](http://_vscodecontentref_/2). Per eseguire i test, utilizza il comando:
-```sh
+Tests are written using [pytest](http://_vscodecontentref_/2). To run the tests, use the command:
+``sh
 make test
+
 
